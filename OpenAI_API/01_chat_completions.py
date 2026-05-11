@@ -86,18 +86,20 @@ OpenAI API - Chat Completions（对话补全）
 ================================================================================
 """
 
+import os
 from openai import OpenAI
 
 # 初始化客户端
-client = OpenAI(api_key="your-api-key")
-
+client = OpenAI(
+                api_key=os.environ["ONE_API_KEY"],
+                base_url=os.environ["BASE_URL"])
 
 def basic_chat():
     """
     基础对话示例
     """
     response = client.chat.completions.create(
-        model="gpt-4o",
+        model="glm-5",
         messages=[
             {"role": "system", "content": "你是一个专业的程序员"},
             {"role": "user", "content": "解释什么是 REST API"}
