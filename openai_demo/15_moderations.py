@@ -47,9 +47,9 @@ OpenAI API - Moderations（内容审核）
 ================================================================================
 """
 
-from openai import OpenAI
+from config import create_client, MODELS
 
-client = OpenAI(api_key="your-api-key")
+client = create_client()
 
 
 def moderate_text():
@@ -57,7 +57,7 @@ def moderate_text():
     文本审核示例
     """
     response = client.moderations.create(
-        model="text-moderation-latest",
+        model=MODELS["moderation"]["latest"],
         input="这是一段需要审核的文本内容。"
     )
     
@@ -74,7 +74,7 @@ def check_specific_categories():
     text = "这段文本包含一些可能敏感的内容"
     
     response = client.moderations.create(
-        model="text-moderation-latest",
+        model=MODELS["moderation"]["latest"],
         input=text
     )
     
@@ -97,7 +97,7 @@ def get_category_scores():
     text = "需要分析的文本内容"
     
     response = client.moderations.create(
-        model="text-moderation-latest",
+        model=MODELS["moderation"]["latest"],
         input=text
     )
     
@@ -120,7 +120,7 @@ def moderate_multiple_texts():
     ]
     
     response = client.moderations.create(
-        model="text-moderation-latest",
+        model=MODELS["moderation"]["latest"],
         input=texts
     )
     
@@ -133,7 +133,7 @@ def moderate_image():
     图像审核示例（多模态）
     """
     response = client.moderations.create(
-        model="omni-moderation-latest",
+        model=MODELS["moderation"]["omni"],
         input=[
             {
                 "type": "image_url",
@@ -151,7 +151,7 @@ def moderate_text_and_image():
     文本+图像联合审核
     """
     response = client.moderations.create(
-        model="omni-moderation-latest",
+        model=MODELS["moderation"]["omni"],
         input=[
             {"type": "text", "text": "这是一段文字"},
             {"type": "image_url", "image_url": {"url": "https://example.com/image.jpg"}}
@@ -173,7 +173,7 @@ def content_filter_example():
         返回: (是否安全, 违规类别列表)
         """
         response = client.moderations.create(
-            model="text-moderation-latest",
+            model=MODELS["moderation"]["latest"],
             input=text
         )
         
@@ -205,7 +205,7 @@ def detailed_moderation_report():
     text = "需要详细分析的文本内容"
     
     response = client.moderations.create(
-        model="text-moderation-latest",
+        model=MODELS["moderation"]["latest"],
         input=text
     )
     

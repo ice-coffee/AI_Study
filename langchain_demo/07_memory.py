@@ -46,17 +46,15 @@ from langchain_community.chat_message_histories import ChatMessageHistory
 from langchain_core.runnables.history import RunnableWithMessageHistory
 from langchain_core.chat_history import BaseChatMessageHistory
 
+from config import get_chat_model
+
 
 def manual_memory():
     """
     手动管理对话历史
     """
-    llm = ChatOpenAI(
-        model="gpt-4o",
-        api_key=os.environ.get("ONE_API_KEY"),
-        base_url=os.environ.get("BASE_URL")
-    )
-    
+    llm = get_chat_model()
+
     # 手动管理消息列表
     messages = [SystemMessage(content="你是一个友好的助手，会记住用户的偏好。")]
     
@@ -90,12 +88,8 @@ def chat_message_history():
     """
     使用 ChatMessageHistory 类
     """
-    llm = ChatOpenAI(
-        model="gpt-4o",
-        api_key=os.environ.get("ONE_API_KEY"),
-        base_url=os.environ.get("BASE_URL")
-    )
-    
+    llm = get_chat_model()
+
     # 创建消息历史
     history = ChatMessageHistory()
     
@@ -125,12 +119,8 @@ def runnable_with_message_history():
     """
     使用 RunnableWithMessageHistory 自动管理历史
     """
-    llm = ChatOpenAI(
-        model="gpt-4o",
-        api_key=os.environ.get("ONE_API_KEY"),
-        base_url=os.environ.get("BASE_URL")
-    )
-    
+    llm = get_chat_model()
+
     # 创建带历史占位符的提示词
     prompt = ChatPromptTemplate.from_messages([
         ("system", "你是一个有帮助的助手"),
@@ -185,13 +175,9 @@ def memory_window():
     滑动窗口记忆 - 只保留最近 N 条消息
     """
     from langchain_core.messages import trim_messages
-    
-    llm = ChatOpenAI(
-        model="gpt-4o",
-        api_key=os.environ.get("ONE_API_KEY"),
-        base_url=os.environ.get("BASE_URL")
-    )
-    
+
+    llm = get_chat_model()
+
     # 创建消息历史
     history = ChatMessageHistory()
     
@@ -226,12 +212,8 @@ def summary_memory():
     """
     摘要记忆 - 将历史压缩为摘要
     """
-    llm = ChatOpenAI(
-        model="gpt-4o",
-        api_key=os.environ.get("ONE_API_KEY"),
-        base_url=os.environ.get("BASE_URL")
-    )
-    
+    llm = get_chat_model()
+
     # 模拟长对话历史
     conversation = [
         ("human", "你好"),

@@ -44,6 +44,8 @@ from langchain_core.tools import tool, Tool, StructuredTool
 from langchain.agents import AgentExecutor, create_tool_calling_agent
 from langchain_core.prompts import ChatPromptTemplate
 
+from config import get_chat_model
+
 
 # ==================== 基础工具定义 ====================
 
@@ -218,13 +220,8 @@ def tool_with_agent():
     """
     在 Agent 中使用工具
     """
-    llm = ChatOpenAI(
-        model="gpt-4o",
-        temperature=0,
-        api_key=os.environ.get("ONE_API_KEY"),
-        base_url=os.environ.get("BASE_URL")
-    )
-    
+    llm = get_chat_model("agent")
+
     # 定义工具列表
     tools = [get_current_weather, search_web, database_tool]
     

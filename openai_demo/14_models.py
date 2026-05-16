@@ -39,9 +39,9 @@ OpenAI API - Models（模型管理）
 ================================================================================
 """
 
-from openai import OpenAI
+from config import create_client, MODELS
 
-client = OpenAI(api_key="your-api-key")
+client = create_client()
 
 
 def list_all_models():
@@ -106,7 +106,7 @@ def retrieve_whisper_model():
     """
     获取 Whisper 模型信息
     """
-    model = client.models.retrieve(model="whisper-1")
+    model = client.models.retrieve(model=MODELS["audio"]["whisper"])
     
     print(f"模型ID: {model.id}")
     print(f"所有者: {model.owned_by}")
@@ -116,7 +116,7 @@ def retrieve_dalle_model():
     """
     获取 DALL-E 模型信息
     """
-    model = client.models.retrieve(model="dall-e-3")
+    model = client.models.retrieve(model=MODELS["image"]["dalle3"])
     
     print(f"模型ID: {model.id}")
     print(f"所有者: {model.owned_by}")

@@ -53,6 +53,8 @@ from langchain_core.documents import Document
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_community.vectorstores import FAISS
 
+from config import get_chat_model, get_embeddings_model
+
 
 def create_sample_documents():
     """
@@ -93,16 +95,9 @@ def basic_rag():
     基础 RAG 示例
     """
     # 初始化组件
-    llm = ChatOpenAI(
-        model="gpt-4o",
-        api_key=os.environ.get("ONE_API_KEY"),
-        base_url=os.environ.get("BASE_URL")
-    )
-    embeddings = OpenAIEmbeddings(
-        api_key=os.environ.get("ONE_API_KEY"),
-        base_url=os.environ.get("BASE_URL")
-    )
-    
+    llm = get_chat_model()
+    embeddings = get_embeddings_model()
+
     # 创建文档
     documents = create_sample_documents()
     
@@ -179,12 +174,9 @@ def rag_with_text_splitter():
         print(f"\n文档 {i+1}: {split.page_content[:50]}...")
     
     # 创建向量存储
-    embeddings = OpenAIEmbeddings(
-        api_key=os.environ.get("ONE_API_KEY"),
-        base_url=os.environ.get("BASE_URL")
-    )
+    embeddings = get_embeddings_model()
     vectorstore = FAISS.from_documents(splits, embeddings)
-    
+
     # 相似度搜索
     query = "什么是深度学习？"
     results = vectorstore.similarity_search(query, k=2)
@@ -199,11 +191,8 @@ def rag_with_score():
     """
     带相似度分数的 RAG
     """
-    embeddings = OpenAIEmbeddings(
-        api_key=os.environ.get("ONE_API_KEY"),
-        base_url=os.environ.get("BASE_URL")
-    )
-    
+    embeddings = get_embeddings_model()
+
     documents = create_sample_documents()
     vectorstore = FAISS.from_documents(documents, embeddings)
     
@@ -223,11 +212,8 @@ def mmr_retrieval():
     """
     MMR（最大边际相关性）检索 - 提高结果多样性
     """
-    embeddings = OpenAIEmbeddings(
-        api_key=os.environ.get("ONE_API_KEY"),
-        base_url=os.environ.get("BASE_URL")
-    )
-    
+    embeddings = get_embeddings_model()
+
     documents = create_sample_documents()
     vectorstore = FAISS.from_documents(documents, embeddings)
     
@@ -249,16 +235,9 @@ def retriever_as_runnable():
     """
     将检索器作为 Runnable 使用
     """
-    llm = ChatOpenAI(
-        model="gpt-4o",
-        api_key=os.environ.get("ONE_API_KEY"),
-        base_url=os.environ.get("BASE_URL")
-    )
-    embeddings = OpenAIEmbeddings(
-        api_key=os.environ.get("ONE_API_KEY"),
-        base_url=os.environ.get("BASE_URL")
-    )
-    
+    llm = get_chat_model()
+    embeddings = get_embeddings_model()
+
     documents = create_sample_documents()
     vectorstore = FAISS.from_documents(documents, embeddings)
     retriever = vectorstore.as_retriever()

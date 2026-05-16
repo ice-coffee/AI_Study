@@ -51,9 +51,9 @@ OpenAI API - Images Edit（图像编辑）
 ================================================================================
 """
 
-from openai import OpenAI
+from config import create_client, MODELS
 
-client = OpenAI(api_key="your-api-key")
+client = create_client()
 
 
 def edit_image_with_mask():
@@ -66,7 +66,7 @@ def edit_image_with_mask():
     """
     # 注意：需要准备原图和遮罩文件
     response = client.images.edit(
-        model="dall-e-2",
+        model=MODELS["image"]["dalle2"],
         image=open("original.png", "rb"),      # 原图像
         mask=open("mask.png", "rb"),            # 遮罩图像
         prompt="一只金毛犬坐在草地上",           # 编辑描述
@@ -84,7 +84,7 @@ def edit_image_without_mask():
     不使用遮罩时，模型会根据prompt决定编辑哪些区域
     """
     response = client.images.edit(
-        model="dall-e-2",
+        model=MODELS["image"]["dalle2"],
         image=open("original.png", "rb"),
         prompt="把背景换成日落海滩",
         n=1,

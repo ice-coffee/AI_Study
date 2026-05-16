@@ -49,10 +49,10 @@ OpenAI API - Batch（批量处理）
 ================================================================================
 """
 
-from openai import OpenAI
+from config import create_client
 import json
 
-client = OpenAI(api_key="your-api-key")
+client = create_client()
 
 
 def create_batch_input_file():

@@ -62,9 +62,9 @@ OpenAI API - Audio Transcriptions（语音转文字）
 ================================================================================
 """
 
-from openai import OpenAI
+from config import create_client, MODELS
 
-client = OpenAI(api_key="your-api-key")
+client = create_client()
 
 
 def basic_transcription():
@@ -73,7 +73,7 @@ def basic_transcription():
     """
     with open("audio.mp3", "rb") as audio_file:
         transcript = client.audio.transcriptions.create(
-            model="whisper-1",
+            model=MODELS["audio"]["whisper"],
             file=audio_file
         )
     
@@ -86,7 +86,7 @@ def transcription_with_language():
     """
     with open("chinese_audio.mp3", "rb") as audio_file:
         transcript = client.audio.transcriptions.create(
-            model="whisper-1",
+            model=MODELS["audio"]["whisper"],
             file=audio_file,
             language="zh"  # 指定中文
         )
@@ -105,7 +105,7 @@ def transcription_with_prompt():
     """
     with open("tech_talk.mp3", "rb") as audio_file:
         transcript = client.audio.transcriptions.create(
-            model="whisper-1",
+            model=MODELS["audio"]["whisper"],
             file=audio_file,
             language="zh",
             prompt="这是一段关于人工智能和机器学习的技术讨论。"
@@ -120,7 +120,7 @@ def transcription_with_timestamps():
     """
     with open("audio.mp3", "rb") as audio_file:
         transcript = client.audio.transcriptions.create(
-            model="whisper-1",
+            model=MODELS["audio"]["whisper"],
             file=audio_file,
             response_format="verbose_json",
             timestamp_granularities=["word"]  # 词级别时间戳
@@ -138,7 +138,7 @@ def generate_srt_subtitle():
     """
     with open("video.mp4", "rb") as audio_file:
         transcript = client.audio.transcriptions.create(
-            model="whisper-1",
+            model=MODELS["audio"]["whisper"],
             file=audio_file,
             response_format="srt"
         )
@@ -156,7 +156,7 @@ def generate_vtt_subtitle():
     """
     with open("video.mp4", "rb") as audio_file:
         transcript = client.audio.transcriptions.create(
-            model="whisper-1",
+            model=MODELS["audio"]["whisper"],
             file=audio_file,
             response_format="vtt"
         )

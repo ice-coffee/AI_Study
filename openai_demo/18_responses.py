@@ -62,12 +62,9 @@ OpenAI API - Responses（响应式 API - 新一代接口）
 ================================================================================
 """
 
-import os
-from openai import OpenAI
+from config import create_client, MODELS
 
-client = OpenAI(
-                api_key=os.environ["ONE_API_KEY"],
-                base_url=os.environ["BASE_URL"])
+client = create_client()
 
 
 def basic_response():
@@ -75,7 +72,7 @@ def basic_response():
     基础响应示例 - 最简单的使用方式
     """
     response = client.chat.completions.create(
-        model="minimax-m2.7",
+        model=MODELS["response"]["minimax"],
         messages=[
             {"role": "system", "content": "你是一个专业的小说家"},
             {"role": "user", "content": "写一个关于独角兽的一句话睡前故事"}
@@ -94,7 +91,7 @@ def response_with_instructions():
     带系统指令的响应示例
     """
     response = client.responses.create(
-        model="gpt-4o",
+        model=MODELS["response"]["default"],
         instructions="你是一个专业的数据分析师，用简洁清晰的风格回答",
         input="解释什么是机器学习"
     )
@@ -107,7 +104,7 @@ def structured_input():
     结构化输入示例 - 类似 messages 格式
     """
     response = client.responses.create(
-        model="gpt-4o",
+        model=MODELS["response"]["default"],
         input=[
             {"role": "system", "content": "你是一个翻译助手"},
             {"role": "user", "content": "把下面的句子翻译成英文：今天天气真好"}
@@ -122,7 +119,7 @@ def streaming_response():
     流式输出示例
     """
     stream = client.responses.create(
-        model="gpt-4o-mini",
+        model=MODELS["response"]["mini"],
         input="写一首关于秋天的诗",
         stream=True
     )
@@ -167,7 +164,7 @@ def tool_calling():
 
     # 第一次调用
     response = client.responses.create(
-        model="gpt-4o",
+        model=MODELS["response"]["default"],
         tools=tools,
         input="北京今天天气怎么样？"
     )
@@ -188,7 +185,7 @@ def tool_calling():
 
         # 第二次调用 - 传入工具结果
         response = client.responses.create(
-            model="gpt-4o",
+            model=MODELS["response"]["default"],
             tools=tools,
             previous_response_id=response.id,
             input=[
@@ -219,7 +216,7 @@ def web_search_tool():
     ]
 
     response = client.responses.create(
-        model="gpt-4o",
+        model=MODELS["response"]["default"],
         tools=tools,
         input="今天有什么重大科技新闻？"
     )
@@ -238,7 +235,7 @@ def multi_turn_conversation():
     """
     # 第一轮
     response1 = client.responses.create(
-        model="gpt-4o-mini",
+        model=MODELS["response"]["mini"],
         instructions="你是一个友好的助手",
         input="我叫张三，请记住"
     )
@@ -246,7 +243,7 @@ def multi_turn_conversation():
 
     # 第二轮 - 关联第一轮响应
     response2 = client.responses.create(
-        model="gpt-4o-mini",
+        model=MODELS["response"]["mini"],
         instructions="你是一个友好的助手",
         input="我叫什么名字？",
         previous_response_id=response1.id
@@ -255,7 +252,7 @@ def multi_turn_conversation():
 
     # 第三轮
     response3 = client.responses.create(
-        model="gpt-4o-mini",
+        model=MODELS["response"]["mini"],
         instructions="你是一个友好的助手",
         input="我喜欢吃苹果，你呢？",
         previous_response_id=response2.id
@@ -268,7 +265,7 @@ def json_mode():
     JSON 模式输出示例
     """
     response = client.responses.create(
-        model="gpt-4o",
+        model=MODELS["response"]["default"],
         instructions="你是一个数据提取助手，输出纯JSON格式",
         input="从以下文本中提取信息：张三是一名28岁的软件工程师，工作于北京的一家互联网公司",
         # Responses API 使用 response_format 指定输出格式
@@ -297,7 +294,7 @@ def with_temperature():
     """
     # 创意模式 - 高温度
     response_creative = client.responses.create(
-        model="gpt-4o-mini",
+        model=MODELS["response"]["mini"],
         input="用创意的方式解释什么是人工智能",
         temperature=1.5
     )
@@ -305,7 +302,7 @@ def with_temperature():
 
     # 精确模式 - 低温度
     response_precise = client.responses.create(
-        model="gpt-4o-mini",
+        model=MODELS["response"]["mini"],
         input="解释什么是人工智能",
         temperature=0.2
     )
@@ -317,7 +314,7 @@ def access_response_object():
     访问完整响应对象示例
     """
     response = client.responses.create(
-        model="gpt-4o-mini",
+        model=MODELS["response"]["mini"],
         input="解释量子计算的基本原理"
     )
 

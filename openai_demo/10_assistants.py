@@ -62,9 +62,9 @@ OpenAI API - Assistants（助手）
 ================================================================================
 """
 
-from openai import OpenAI
+from config import create_client, MODELS
 
-client = OpenAI(api_key="your-api-key")
+client = create_client()
 
 
 def create_basic_assistant():
@@ -74,7 +74,7 @@ def create_basic_assistant():
     assistant = client.beta.assistants.create(
         name="数学导师",
         instructions="你是一个专业的数学老师，擅长用简单易懂的方式解释数学概念。",
-        model="gpt-4o"
+        model=MODELS["chat"]["default"]
     )
     
     print(f"助手ID: {assistant.id}")
@@ -88,7 +88,7 @@ def create_assistant_with_code_interpreter():
     assistant = client.beta.assistants.create(
         name="数据分析助手",
         instructions="你是一个数据分析专家，可以使用 Python 进行数据处理和可视化。",
-        model="gpt-4o",
+        model=MODELS["chat"]["default"],
         tools=[{"type": "code_interpreter"}]
     )
     
@@ -106,7 +106,7 @@ def create_assistant_with_file_search():
     assistant = client.beta.assistants.create(
         name="文档问答助手",
         instructions="你是一个文档问答助手，根据上传的文档回答用户问题。",
-        model="gpt-4o",
+        model=MODELS["chat"]["default"],
         tools=[{"type": "file_search"}],
         tool_resources={
             "file_search": {
@@ -146,7 +146,7 @@ def create_assistant_with_function():
     assistant = client.beta.assistants.create(
         name="天气助手",
         instructions="你是一个天气助手，帮助用户查询天气信息。",
-        model="gpt-4o",
+        model=MODELS["chat"]["default"],
         tools=tools
     )
     

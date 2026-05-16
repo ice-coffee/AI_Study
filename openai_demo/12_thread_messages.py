@@ -45,9 +45,9 @@ OpenAI API - Thread Messages（线程消息）
 ================================================================================
 """
 
-from openai import OpenAI
+from config import create_client
 
-client = OpenAI(api_key="your-api-key")
+client = create_client()
 
 
 def create_text_message():

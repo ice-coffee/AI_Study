@@ -42,9 +42,9 @@ OpenAI API - Audio Translations（语音翻译）
 ================================================================================
 """
 
-from openai import OpenAI
+from config import create_client, MODELS
 
-client = OpenAI(api_key="your-api-key")
+client = create_client()
 
 
 def basic_translation():
@@ -53,7 +53,7 @@ def basic_translation():
     """
     with open("chinese_audio.mp3", "rb") as audio_file:
         translation = client.audio.translations.create(
-            model="whisper-1",
+            model=MODELS["audio"]["whisper"],
             file=audio_file
         )
     
@@ -66,7 +66,7 @@ def translation_with_prompt():
     """
     with open("tech_talk.mp3", "rb") as audio_file:
         translation = client.audio.translations.create(
-            model="whisper-1",
+            model=MODELS["audio"]["whisper"],
             file=audio_file,
             prompt="This is a technical discussion about artificial intelligence and machine learning."
         )
@@ -80,7 +80,7 @@ def translation_to_text():
     """
     with open("speech.mp3", "rb") as audio_file:
         translation = client.audio.translations.create(
-            model="whisper-1",
+            model=MODELS["audio"]["whisper"],
             file=audio_file,
             response_format="text"
         )

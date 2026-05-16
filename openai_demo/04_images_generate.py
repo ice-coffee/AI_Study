@@ -51,10 +51,10 @@ OpenAI API - Images Generate（图像生成）
 ================================================================================
 """
 
-from openai import OpenAI
+from config import create_client, MODELS
 import base64
 
-client = OpenAI(api_key="your-api-key")
+client = create_client()
 
 
 def basic_image_generation():
@@ -62,7 +62,7 @@ def basic_image_generation():
     基础图像生成示例
     """
     response = client.images.generate(
-        model="dall-e-3",
+        model=MODELS["image"]["dalle3"],
         prompt="一只在草地上奔跑的金毛犬，油画风格",
         size="1024x1024",
         quality="standard",
@@ -79,7 +79,7 @@ def hd_quality_image():
     HD 高清图像生成示例
     """
     response = client.images.generate(
-        model="dall-e-3",
+        model=MODELS["image"]["dalle3"],
         prompt="一座漂浮在云端的未来城市，霓虹灯光，科幻风格",
         size="1792x1024",  # 横向宽屏
         quality="hd",      # 高清质量
@@ -94,7 +94,7 @@ def natural_style_image():
     自然风格图像生成示例
     """
     response = client.images.generate(
-        model="dall-e-3",
+        model=MODELS["image"]["dalle3"],
         prompt="一杯放在木质桌子上的咖啡，阳光透过窗户",
         size="1024x1024",
         quality="standard",
@@ -111,7 +111,7 @@ def save_image_locally():
     import requests
     
     response = client.images.generate(
-        model="dall-e-3",
+        model=MODELS["image"]["dalle3"],
         prompt="一只可爱的卡通猫咪",
         size="1024x1024",
         n=1
@@ -132,7 +132,7 @@ def base64_image():
     获取 Base64 编码图片示例
     """
     response = client.images.generate(
-        model="dall-e-3",
+        model=MODELS["image"]["dalle3"],
         prompt="一朵盛开的红玫瑰",
         size="1024x1024",
         response_format="b64_json"
@@ -151,7 +151,7 @@ def dall_e_2_generation():
     DALL-E-2 图像生成示例
     """
     response = client.images.generate(
-        model="dall-e-2",
+        model=MODELS["image"]["dalle2"],
         prompt="A serene lake surrounded by mountains at sunset",
         size="1024x1024",
         n=1

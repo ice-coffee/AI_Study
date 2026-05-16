@@ -33,9 +33,9 @@ OpenAI API - Threads（对话线程）
 ================================================================================
 """
 
-from openai import OpenAI
+from config import create_client, MODELS
 
-client = OpenAI(api_key="your-api-key")
+client = create_client()
 
 
 def create_empty_thread():
@@ -144,7 +144,7 @@ def full_assistant_workflow():
     assistant = client.beta.assistants.create(
         name="助手",
         instructions="你是一个友好的助手",
-        model="gpt-4o"
+        model=MODELS["chat"]["default"]
     )
     print(f"1. 创建助手: {assistant.id}")
     

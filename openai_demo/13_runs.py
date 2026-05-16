@@ -60,10 +60,10 @@ OpenAI API - Runs（运行）
 ================================================================================
 """
 
-from openai import OpenAI
+from config import create_client, MODELS
 import time
 
-client = OpenAI(api_key="your-api-key")
+client = create_client()
 
 
 def create_run():
@@ -92,7 +92,7 @@ def run_with_overrides():
     run = client.beta.threads.runs.create(
         thread_id=thread_id,
         assistant_id=assistant_id,
-        model="gpt-4o",
+        model=MODELS["chat"]["default"],
         instructions="请用简单易懂的语言回答，适合小学生理解。",
         temperature=0.5
     )
@@ -216,7 +216,7 @@ def complete_workflow():
     assistant = client.beta.assistants.create(
         name="示例助手",
         instructions="你是一个友好的助手",
-        model="gpt-4o"
+        model=MODELS["chat"]["default"]
     )
     print(f"1. 创建助手: {assistant.id}")
     

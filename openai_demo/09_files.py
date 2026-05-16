@@ -46,9 +46,9 @@ OpenAI API - Files（文件管理）
 ================================================================================
 """
 
-from openai import OpenAI
+from config import create_client
 
-client = OpenAI(api_key="your-api-key")
+client = create_client()
 
 
 def upload_file():

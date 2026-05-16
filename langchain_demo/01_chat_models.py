@@ -41,19 +41,16 @@ from langchain_openai import ChatOpenAI
 from langchain_core.messages import SystemMessage, HumanMessage, AIMessage
 from langchain_core.callbacks import StreamingStdOutCallbackHandler
 
+from config import get_chat_model
+
 
 def basic_chat():
     """
     基础对话示例
     """
     # 初始化模型
-    llm = ChatOpenAI(
-        model="gpt-4o",
-        temperature=0.7,
-        api_key=os.environ.get("ONE_API_KEY"),
-        base_url=os.environ.get("BASE_URL")
-    )
-    
+    llm = get_chat_model("glm")
+
     # 构建消息
     messages = [
         SystemMessage(content="你是一个专业的程序员"),
@@ -71,15 +68,8 @@ def streaming_chat():
     """
     流式输出示例
     """
-    llm = ChatOpenAI(
-        model="gpt-4o",
-        temperature=0.7,
-        streaming=True,
-        callbacks=[StreamingStdOutCallbackHandler()],
-        api_key=os.environ.get("ONE_API_KEY"),
-        base_url=os.environ.get("BASE_URL")
-    )
-    
+    llm = get_chat_model("glm", streaming=True, callbacks=[StreamingStdOutCallbackHandler()])
+
     messages = [HumanMessage(content="写一首关于春天的诗")]
     
     print("流式输出: ")
@@ -91,12 +81,8 @@ def batch_chat():
     """
     批量调用示例 - 同时处理多个请求
     """
-    llm = ChatOpenAI(
-        model="gpt-4o",
-        api_key=os.environ.get("ONE_API_KEY"),
-        base_url=os.environ.get("BASE_URL")
-    )
-    
+    llm = get_chat_model("glm")
+
     # 批量处理多个问题
     batch_messages = [
         [HumanMessage(content="什么是 Python？")],
@@ -116,14 +102,10 @@ def async_chat():
     异步调用示例
     """
     import asyncio
-    
+
     async def run():
-        llm = ChatOpenAI(
-            model="gpt-4o",
-            api_key=os.environ.get("ONE_API_KEY"),
-            base_url=os.environ.get("BASE_URL")
-        )
-        
+        llm = get_chat_model("glm")
+
         response = await llm.ainvoke([HumanMessage(content="你好")])
         print("异步回复:", response.content)
     
@@ -134,14 +116,8 @@ def with_timeout():
     """
     带超时和重试的调用
     """
-    llm = ChatOpenAI(
-        model="gpt-4o",
-        timeout=10,  # 10秒超时
-        max_retries=3,  # 最大重试3次
-        api_key=os.environ.get("ONE_API_KEY"),
-        base_url=os.environ.get("BASE_URL")
-    )
-    
+    llm = get_chat_model("glm", timeout=10, max_retries=3)
+
     response = llm.invoke([HumanMessage(content="你好")])
     print("回复:", response.content)
 
@@ -150,12 +126,8 @@ def multi_turn_chat():
     """
     多轮对话示例 - 手动管理消息历史
     """
-    llm = ChatOpenAI(
-        model="gpt-4o",
-        api_key=os.environ.get("ONE_API_KEY"),
-        base_url=os.environ.get("BASE_URL")
-    )
-    
+    llm = get_chat_model("glm")
+
     # 初始化消息历史
     history = [SystemMessage(content="你是一个友好的助手")]
     

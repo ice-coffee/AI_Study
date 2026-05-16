@@ -39,18 +39,16 @@ import os
 import numpy as np
 from langchain_openai import OpenAIEmbeddings
 
+from config import get_embeddings_model
+
 
 def basic_embedding():
     """
     基础嵌入示例
     """
     # 初始化嵌入模型
-    embeddings = OpenAIEmbeddings(
-        model="text-embedding-3-small",
-        api_key=os.environ.get("ONE_API_KEY"),
-        base_url=os.environ.get("BASE_URL")
-    )
-    
+    embeddings = get_embeddings_model()
+
     # 嵌入单个文本
     text = "Python 是一种流行的编程语言"
     vector = embeddings.embed_query(text)
@@ -64,12 +62,8 @@ def batch_embedding():
     """
     批量嵌入文档
     """
-    embeddings = OpenAIEmbeddings(
-        model="text-embedding-3-small",
-        api_key=os.environ.get("ONE_API_KEY"),
-        base_url=os.environ.get("BASE_URL")
-    )
-    
+    embeddings = get_embeddings_model()
+
     # 批量嵌入
     texts = [
         "Python 是一种编程语言",
@@ -89,12 +83,8 @@ def cosine_similarity():
     """
     计算余弦相似度
     """
-    embeddings = OpenAIEmbeddings(
-        model="text-embedding-3-small",
-        api_key=os.environ.get("ONE_API_KEY"),
-        base_url=os.environ.get("BASE_URL")
-    )
-    
+    embeddings = get_embeddings_model()
+
     # 嵌入多个句子
     sentences = [
         "我喜欢吃苹果",
@@ -124,12 +114,8 @@ def semantic_search():
     """
     语义搜索示例
     """
-    embeddings = OpenAIEmbeddings(
-        model="text-embedding-3-small",
-        api_key=os.environ.get("ONE_API_KEY"),
-        base_url=os.environ.get("BASE_URL")
-    )
-    
+    embeddings = get_embeddings_model()
+
     # 文档库
     documents = [
         "Python 是一种高级编程语言，以其简洁的语法著称",
@@ -170,19 +156,11 @@ def embedding_with_different_models():
     使用不同嵌入模型
     """
     # text-embedding-3-small
-    small_embeddings = OpenAIEmbeddings(
-        model="text-embedding-3-small",
-        api_key=os.environ.get("ONE_API_KEY"),
-        base_url=os.environ.get("BASE_URL")
-    )
-    
+    small_embeddings = get_embeddings_model("small")
+
     # text-embedding-3-large
-    large_embeddings = OpenAIEmbeddings(
-        model="text-embedding-3-large",
-        api_key=os.environ.get("ONE_API_KEY"),
-        base_url=os.environ.get("BASE_URL")
-    )
-    
+    large_embeddings = get_embeddings_model("large")
+
     text = "Hello, World!"
     
     small_vector = small_embeddings.embed_query(text)
@@ -198,13 +176,9 @@ def clustering_example():
     简单的文本聚类示例
     """
     from collections import defaultdict
-    
-    embeddings = OpenAIEmbeddings(
-        model="text-embedding-3-small",
-        api_key=os.environ.get("ONE_API_KEY"),
-        base_url=os.environ.get("BASE_URL")
-    )
-    
+
+    embeddings = get_embeddings_model()
+
     # 不同类别的句子
     sentences = [
         # 编程相关

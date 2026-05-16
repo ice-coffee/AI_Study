@@ -44,6 +44,8 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.runnables import RunnablePassthrough, RunnableParallel
 
+from config import get_chat_model
+
 
 def basic_chain():
     """
@@ -51,11 +53,7 @@ def basic_chain():
     """
     # 定义组件
     prompt = ChatPromptTemplate.from_template("给我讲一个关于{topic}的笑话")
-    llm = ChatOpenAI(
-        model="gpt-4o",
-        api_key=os.environ.get("ONE_API_KEY"),
-        base_url=os.environ.get("BASE_URL")
-    )
+    llm = get_chat_model()
     parser = StrOutputParser()
     
     # 使用 LCEL 构建链
@@ -79,13 +77,9 @@ def chain_with_multiple_steps():
     answer_prompt = ChatPromptTemplate.from_template(
         "请回答以下问题：{question}"
     )
-    
-    llm = ChatOpenAI(
-        model="gpt-4o",
-        api_key=os.environ.get("ONE_API_KEY"),
-        base_url=os.environ.get("BASE_URL")
-    )
-    
+
+    llm = get_chat_model()
+
     # 构建链：先生成问题，再回答
     question_chain = question_prompt | llm | StrOutputParser()
     answer_chain = answer_prompt | llm | StrOutputParser()
@@ -104,12 +98,8 @@ def parallel_chain():
     """
     并行执行多个链
     """
-    llm = ChatOpenAI(
-        model="gpt-4o",
-        api_key=os.environ.get("ONE_API_KEY"),
-        base_url=os.environ.get("BASE_URL")
-    )
-    
+    llm = get_chat_model()
+
     # 定义多个并行任务
     joke_chain = (
         ChatPromptTemplate.from_template("讲一个关于{topic}的笑话")
@@ -138,12 +128,8 @@ def chain_with_passthrough():
     """
     使用 RunnablePassthrough 保留原始输入
     """
-    llm = ChatOpenAI(
-        model="gpt-4o",
-        api_key=os.environ.get("ONE_API_KEY"),
-        base_url=os.environ.get("BASE_URL")
-    )
-    
+    llm = get_chat_model()
+
     prompt = ChatPromptTemplate.from_template(
         "主题: {topic}\n问题: {question}\n请回答："
     )
@@ -167,12 +153,8 @@ def chain_with_assign():
     """
     使用 assign 添加中间结果
     """
-    llm = ChatOpenAI(
-        model="gpt-4o",
-        api_key=os.environ.get("ONE_API_KEY"),
-        base_url=os.environ.get("BASE_URL")
-    )
-    
+    llm = get_chat_model()
+
     # 定义子链
     translation_chain = (
         ChatPromptTemplate.from_template("将以下英文翻译成中文：{text}")
@@ -192,12 +174,8 @@ def fallback_chain():
     """
     回退链 - 当主链失败时使用备用链
     """
-    llm = ChatOpenAI(
-        model="gpt-4o",
-        api_key=os.environ.get("ONE_API_KEY"),
-        base_url=os.environ.get("BASE_URL")
-    )
-    
+    llm = get_chat_model()
+
     # 主链
     main_chain = (
         ChatPromptTemplate.from_template("用{style}风格介绍{topic}")
@@ -223,12 +201,8 @@ def streaming_chain():
     """
     流式输出链
     """
-    llm = ChatOpenAI(
-        model="gpt-4o",
-        api_key=os.environ.get("ONE_API_KEY"),
-        base_url=os.environ.get("BASE_URL")
-    )
-    
+    llm = get_chat_model()
+
     chain = (
         ChatPromptTemplate.from_template("写一首关于{topic}的诗")
         | llm

@@ -48,9 +48,9 @@ OpenAI API - Audio Speech（文字转语音）
 ================================================================================
 """
 
-from openai import OpenAI
+from config import create_client, MODELS
 
-client = OpenAI(api_key="your-api-key")
+client = create_client()
 
 
 def basic_speech():
@@ -58,7 +58,7 @@ def basic_speech():
     基础文字转语音示例
     """
     response = client.audio.speech.create(
-        model="tts-1",
+        model=MODELS["audio"]["tts1"],
         voice="alloy",
         input="你好，欢迎使用 OpenAI 文字转语音服务。"
     )
@@ -73,7 +73,7 @@ def high_quality_speech():
     高清质量语音示例
     """
     response = client.audio.speech.create(
-        model="tts-1-hd",  # 高清模型
+        model=MODELS["audio"]["tts1_hd"],  # 高清模型
         voice="nova",       # 女性声音
         input="这是一个高清质量的语音示例，声音更加自然清晰。"
     )
@@ -91,7 +91,7 @@ def different_voices():
     
     for voice in voices:
         response = client.audio.speech.create(
-            model="tts-1",
+            model=MODELS["audio"]["tts1"],
             voice=voice,
             input=text
         )
@@ -109,7 +109,7 @@ def adjust_speed():
     
     for speed in speeds:
         response = client.audio.speech.create(
-            model="tts-1",
+            model=MODELS["audio"]["tts1"],
             voice="alloy",
             input=text,
             speed=speed
@@ -124,7 +124,7 @@ def save_as_flac():
     保存为 FLAC 无损格式示例
     """
     response = client.audio.speech.create(
-        model="tts-1-hd",
+        model=MODELS["audio"]["tts1_hd"],
         voice="shimmer",
         input="这是无损音频格式示例。",
         response_format="flac"
@@ -139,7 +139,7 @@ def streaming_speech():
     流式处理语音示例
     """
     response = client.audio.speech.create(
-        model="tts-1",
+        model=MODELS["audio"]["tts1"],
         voice="alloy",
         input="这是一段较长的文本，用于演示流式处理。当我们处理大量文本时，流式处理可以提高效率。"
     )

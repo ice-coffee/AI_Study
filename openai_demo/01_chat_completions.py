@@ -86,20 +86,17 @@ OpenAI API - Chat Completions（对话补全）
 ================================================================================
 """
 
-import os
-from openai import OpenAI
+from config import create_client, MODELS
 
 # 初始化客户端
-client = OpenAI(
-                api_key=os.environ["ONE_API_KEY"],
-                base_url=os.environ["BASE_URL"])
+client = create_client()
 
 def basic_chat():
     """
     基础对话示例
     """
     response = client.chat.completions.create(
-        model="glm-5",
+        model=MODELS["chat"]["glm"],
         messages=[
             {"role": "system", "content": "你是一个专业的程序员"},
             {"role": "user", "content": "解释什么是 REST API"}
@@ -117,7 +114,7 @@ def streaming_chat():
     流式输出示例
     """
     stream = client.chat.completions.create(
-        model="gpt-4o",
+        model=MODELS["chat"]["default"],
         messages=[{"role": "user", "content": "写一首关于春天的诗"}],
         stream=True  # 开启流式
     )
@@ -162,7 +159,7 @@ def function_calling():
     
     # 第一次调用 - 模型决定是否调用函数
     response = client.chat.completions.create(
-        model="gpt-4o",
+        model=MODELS["chat"]["default"],
         messages=[{"role": "user", "content": "北京今天天气怎么样？"}],
         tools=tools
     )
@@ -181,7 +178,7 @@ def function_calling():
         
         # 第二次调用 - 返回函数结果
         response = client.chat.completions.create(
-            model="gpt-4o",
+            model=MODELS["chat"]["default"],
             messages=[
                 {"role": "user", "content": "北京今天天气怎么样？"},
                 message,
@@ -201,7 +198,7 @@ def json_output():
     JSON格式输出示例
     """
     response = client.chat.completions.create(
-        model="gpt-4o",
+        model=MODELS["chat"]["default"],
         messages=[
             {"role": "system", "content": "你是一个数据提取助手，以JSON格式返回结果"},
             {"role": "user", "content": "从以下文本中提取人名、地点和事件：张三在北京参加了技术会议"}
@@ -225,7 +222,7 @@ def multi_turn_chat():
         messages.append({"role": "user", "content": user_input})
         
         response = client.chat.completions.create(
-            model="gpt-4o",
+            model=MODELS["chat"]["default"],
             messages=messages
         )
         

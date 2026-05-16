@@ -50,6 +50,8 @@ from langchain_core.tools import tool
 from langchain.agents import AgentExecutor, create_tool_calling_agent
 from langchain_core.prompts import ChatPromptTemplate
 
+from config import get_chat_model
+
 
 # ==================== 定义工具 ====================
 
@@ -122,13 +124,8 @@ def basic_agent():
     基础智能体示例
     """
     # 初始化 LLM
-    llm = ChatOpenAI(
-        model="gpt-4o",
-        temperature=0,
-        api_key=os.environ.get("ONE_API_KEY"),
-        base_url=os.environ.get("BASE_URL")
-    )
-    
+    llm = get_chat_model("agent")
+
     # 定义工具列表
     tools = [get_weather, calculate, search_database]
     
@@ -154,13 +151,8 @@ def multi_tool_agent():
     """
     多工具协作示例
     """
-    llm = ChatOpenAI(
-        model="gpt-4o",
-        temperature=0,
-        api_key=os.environ.get("ONE_API_KEY"),
-        base_url=os.environ.get("BASE_URL")
-    )
-    
+    llm = get_chat_model("agent")
+
     tools = [get_weather, calculate, search_database]
     
     prompt = ChatPromptTemplate.from_messages([
@@ -186,14 +178,9 @@ def agent_with_memory():
     from langchain_core.messages import HumanMessage, AIMessage
     from langchain_community.chat_message_histories import ChatMessageHistory
     from langchain_core.runnables.history import RunnableWithMessageHistory
-    
-    llm = ChatOpenAI(
-        model="gpt-4o",
-        temperature=0,
-        api_key=os.environ.get("ONE_API_KEY"),
-        base_url=os.environ.get("BASE_URL")
-    )
-    
+
+    llm = get_chat_model("agent")
+
     tools = [get_weather, search_database]
     
     prompt = ChatPromptTemplate.from_messages([

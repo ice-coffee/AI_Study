@@ -49,17 +49,15 @@ from langchain_core.output_parsers import (
 )
 from langchain.output_parsers import PydanticOutputParser
 
+from config import get_chat_model
+
 
 def str_output_parser():
     """
     StrOutputParser 示例 - 最简单的输出解析
     """
-    llm = ChatOpenAI(
-        model="gpt-4o",
-        api_key=os.environ.get("ONE_API_KEY"),
-        base_url=os.environ.get("BASE_URL")
-    )
-    
+    llm = get_chat_model()
+
     # 创建提示词模板
     prompt = ChatPromptTemplate.from_template("给我讲一个关于{topic}的笑话")
     
@@ -97,13 +95,9 @@ def json_output_parser():
     prompt = prompt.partial(
         format_instructions=parser.get_format_instructions()
     )
-    
-    llm = ChatOpenAI(
-        model="gpt-4o",
-        api_key=os.environ.get("ONE_API_KEY"),
-        base_url=os.environ.get("BASE_URL")
-    )
-    
+
+    llm = get_chat_model()
+
     # 构建链
     chain = prompt | llm | parser
     
@@ -138,13 +132,9 @@ def pydantic_output_parser():
         ("system", "你是一个图书推荐助手。"),
         ("human", "推荐一本关于{topic}的书\n\n{format_instructions}")
     ])
-    
-    llm = ChatOpenAI(
-        model="gpt-4o",
-        api_key=os.environ.get("ONE_API_KEY"),
-        base_url=os.environ.get("BASE_URL")
-    )
-    
+
+    llm = get_chat_model()
+
     # 构建链
     chain = prompt | llm | parser
     
@@ -175,13 +165,9 @@ def list_output_parser():
         ("system", "你是一个知识助手。"),
         ("human", "列出5个{topic}\n\n{format_instructions}")
     ])
-    
-    llm = ChatOpenAI(
-        model="gpt-4o",
-        api_key=os.environ.get("ONE_API_KEY"),
-        base_url=os.environ.get("BASE_URL")
-    )
-    
+
+    llm = get_chat_model()
+
     # 构建链
     chain = prompt | llm | parser
     
@@ -216,13 +202,9 @@ def nested_model_parser():
         ("system", "你是一个信息提取助手。"),
         ("human", "{query}\n\n{format_instructions}")
     ])
-    
-    llm = ChatOpenAI(
-        model="gpt-4o",
-        api_key=os.environ.get("ONE_API_KEY"),
-        base_url=os.environ.get("BASE_URL")
-    )
-    
+
+    llm = get_chat_model()
+
     chain = prompt | llm | parser
     
     result = chain.invoke({

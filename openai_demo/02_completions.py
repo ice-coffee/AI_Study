@@ -64,9 +64,9 @@ OpenAI API - Completions（文本补全 - 旧版）
 ================================================================================
 """
 
-from openai import OpenAI
+from config import create_client, MODELS
 
-client = OpenAI(api_key="your-api-key")
+client = create_client()
 
 
 def basic_completion():
@@ -74,7 +74,7 @@ def basic_completion():
     基础文本补全示例
     """
     response = client.completions.create(
-        model="gpt-3.5-turbo-instruct",
+        model=MODELS["completion"]["default"],
         prompt="请写一首关于春天的诗：\n",
         max_tokens=100,
         temperature=0.7
@@ -88,7 +88,7 @@ def multi_prompt_completion():
     多提示补全示例
     """
     response = client.completions.create(
-        model="gpt-3.5-turbo-instruct",
+        model=MODELS["completion"]["default"],
         prompt=[
             "翻译成英文：你好\n",
             "翻译成英文：谢谢\n"
@@ -106,7 +106,7 @@ def streaming_completion():
     流式补全示例
     """
     stream = client.completions.create(
-        model="gpt-3.5-turbo-instruct",
+        model=MODELS["completion"]["default"],
         prompt="写一个短故事：",
         max_tokens=200,
         stream=True
@@ -124,7 +124,7 @@ def completion_with_stop():
     使用停止词示例
     """
     response = client.completions.create(
-        model="gpt-3.5-turbo-instruct",
+        model=MODELS["completion"]["default"],
         prompt="列出三种水果：\n1.",
         max_tokens=50,
         stop=["\n\n", "4."]  # 遇到双换行或"4."时停止

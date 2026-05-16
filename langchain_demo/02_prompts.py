@@ -44,6 +44,8 @@ from langchain_core.prompts import (
     HumanMessagePromptTemplate,
 )
 
+from config import get_chat_model
+
 
 def basic_prompt_template():
     """
@@ -57,11 +59,7 @@ def basic_prompt_template():
     print("格式化后的提示词:", prompt)
     
     # 与 LLM 配合使用
-    llm = ChatOpenAI(
-        model="gpt-4o",
-        api_key=os.environ.get("ONE_API_KEY"),
-        base_url=os.environ.get("BASE_URL")
-    )
+    llm = get_chat_model()
     response = llm.invoke(prompt)
     print("回复:", response.content)
 
@@ -88,11 +86,7 @@ def chat_prompt_template():
         print(f"  {type(msg).__name__}: {msg.content}")
     
     # 调用模型
-    llm = ChatOpenAI(
-        model="gpt-4o",
-        api_key=os.environ.get("ONE_API_KEY"),
-        base_url=os.environ.get("BASE_URL")
-    )
+    llm = get_chat_model()
     response = llm.invoke(messages)
     print("\n回复:", response.content)
 
@@ -161,12 +155,8 @@ def template_with_examples():
     
     # 使用模板
     messages = template.format_messages(text="早上好")
-    
-    llm = ChatOpenAI(
-        model="gpt-4o",
-        api_key=os.environ.get("ONE_API_KEY"),
-        base_url=os.environ.get("BASE_URL")
-    )
+
+    llm = get_chat_model()
     response = llm.invoke(messages)
     print("翻译结果:", response.content)
 

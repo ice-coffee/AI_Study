@@ -37,10 +37,10 @@ OpenAI API - Embeddings（向量嵌入）
 ================================================================================
 """
 
-from openai import OpenAI
+from config import create_client, MODELS
 import numpy as np
 
-client = OpenAI(api_key="your-api-key")
+client = create_client()
 
 
 def single_embedding():
@@ -48,7 +48,7 @@ def single_embedding():
     单文本嵌入示例
     """
     response = client.embeddings.create(
-        model="text-embedding-3-small",
+        model=MODELS["embedding"]["small"],
         input="这是一段需要转换为向量的文本"
     )
     
@@ -69,7 +69,7 @@ def batch_embeddings():
     ]
     
     response = client.embeddings.create(
-        model="text-embedding-3-small",
+        model=MODELS["embedding"]["small"],
         input=texts
     )
     
@@ -82,7 +82,7 @@ def custom_dimensions():
     自定义维度示例（仅 text-embedding-3 系列）
     """
     response = client.embeddings.create(
-        model="text-embedding-3-small",
+        model=MODELS["embedding"]["small"],
         input="降低向量维度可以减少存储成本",
         dimensions=256  # 自定义维度
     )
@@ -115,14 +115,14 @@ def semantic_search():
     
     # 获取查询向量
     query_response = client.embeddings.create(
-        model="text-embedding-3-small",
+        model=MODELS["embedding"]["small"],
         input=query
     )
     query_vector = query_response.data[0].embedding
     
     # 获取文档向量
     doc_response = client.embeddings.create(
-        model="text-embedding-3-small",
+        model=MODELS["embedding"]["small"],
         input=documents
     )
     doc_vectors = [item.embedding for item in doc_response.data]
@@ -157,7 +157,7 @@ def clustering_demo():
     
     # 获取嵌入
     response = client.embeddings.create(
-        model="text-embedding-3-small",
+        model=MODELS["embedding"]["small"],
         input=texts
     )
     vectors = np.array([item.embedding for item in response.data])

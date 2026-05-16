@@ -58,10 +58,10 @@ OpenAI API - Fine-tuning（模型微调）
 ================================================================================
 """
 
-from openai import OpenAI
+from config import create_client, MODELS
 import json
 
-client = OpenAI(api_key="your-api-key")
+client = create_client()
 
 
 def create_training_data():
@@ -113,7 +113,7 @@ def create_fine_tuning_job():
     
     # 创建微调任务
     job = client.fine_tuning.jobs.create(
-        model="gpt-3.5-turbo-0125",
+        model=MODELS["fine_tune"]["default"],
         training_file=file.id,
         hyperparameters={
             "n_epochs": 3,
@@ -140,7 +140,7 @@ def create_fine_tuning_with_validation():
         val_file = client.files.create(file=f, purpose="fine-tune")
     
     job = client.fine_tuning.jobs.create(
-        model="gpt-3.5-turbo-0125",
+        model=MODELS["fine_tune"]["default"],
         training_file=train_file.id,
         validation_file=val_file.id,
         hyperparameters={"n_epochs": 4}
